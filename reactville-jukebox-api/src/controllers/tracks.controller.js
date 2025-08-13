@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Track = require('../models/Track');
+const { enrichTrack } = require('../services/music.service');
 const ENABLE_ENRICHMENT = process.env.ENABLE_ENRICHMENT !== 'false';
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
