@@ -5,23 +5,27 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 require('dotenv').config();
 
-const tracksRouter = require('./routes/tracks.routes');
+const Tracks = require('./controllers/tracks.controller'); // ← controller import
 
 const app = express();
 
 // Middleware
-app.use(cors());                       // CORS
-app.use(express.json());               // Parse JSON bodies
-app.use(methodOverride('_method'));    // Allows ?_method=PUT / DELETE
-app.use(morgan('dev'));                // Nice request logs
+app.use(cors());
+app.use(express.json());
+app.use(methodOverride('_method'));
+app.use(morgan('dev'));
 
 // Health check
 app.get('/', (req, res) => {
   res.json({ message: 'Reactville Jukebox API' });
 });
 
-// Routes
-app.use('/tracks', tracksRouter);
+// Routes (controller methodology)
+app.post('/tracks',       Tracks.create);
+app.get('/tracks',        Tracks.index);
+app.get('/tracks/:id',    Tracks.show);
+app.put('/tracks/:id',    Tracks.update);
+app.delete('/tracks/:id', Tracks.destroy);
 
 // 404
 app.use((req, res, next) => {
